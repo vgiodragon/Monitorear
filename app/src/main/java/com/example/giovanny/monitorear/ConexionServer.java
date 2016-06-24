@@ -13,8 +13,6 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.Reader;
 import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
-import java.net.ProtocolException;
 import java.net.URL;
 import java.util.ArrayList;
 
@@ -23,31 +21,6 @@ import java.util.ArrayList;
  */
 public class ConexionServer {
     String urlp="http://52.40.252.10:8081/";
-    public String LoginPac(String func,String user,String pass) throws IOException {
-        InputStream is = null;
-        int len = 100;
-
-        try {
-            String furl=urlp+func+(user+"@!"+pass).replace(" ","__");
-            URL url = new URL(furl);
-            HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-            conn.setRequestMethod("POST");
-            conn.setDoOutput(true);
-            // Starts the query
-            conn.connect();
-            int response = conn.getResponseCode();
-            Log.d("respuesta", "The response is: " + response);
-            is = conn.getInputStream();
-            // Convert the InputStream into a string
-            String contentAsString = readIt(is, len);
-            return contentAsString;
-
-        } finally {
-            if (is != null) {
-                is.close();
-            }
-        }
-    }
 
     public ArrayList<Censado> receiveJson(String func)throws IOException {
 
@@ -55,18 +28,9 @@ public class ConexionServer {
         int len = 1000;
         ArrayList<Censado> censados=new ArrayList<>();
         try {
-            String furl=urlp+func;
-            URL url = new URL(furl);
-            Log.d("respuesta", furl);
-            HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-            conn.setRequestMethod("GET");
-            conn.setDoOutput(true);
-            conn.setDoInput(true);
-            // Starts the query
-            conn.connect();
-
-            int response = conn.getResponseCode();
-            Log.d("respuesta", "The response is: " + response);
+            HttpURLConnection conn = AbroConexion(urlp+func);
+            //int response = conn.getResponseCode();
+            //Log.d("respuesta", "The response is: " + response);
             is = conn.getInputStream();
 
             // Convert the InputStream into a string
@@ -88,12 +52,6 @@ public class ConexionServer {
                 censados.add(censado);
             }
 
-        } catch (MalformedURLException e) {
-            e.printStackTrace();
-        } catch (ProtocolException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
         } catch (JSONException e) {
             e.printStackTrace();
         } finally {
@@ -112,21 +70,11 @@ public class ConexionServer {
         ArrayList<Dispositivo> dispositivos=new ArrayList<>();
 
         try {
-            String furl=urlp+func;
-            URL url = new URL(furl);
-            Log.d("respuesta", furl);
-            HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-            conn.setRequestMethod("GET");
-            conn.setDoOutput(true);
-            conn.setDoInput(true);
-            // Starts the query
-            conn.connect();
+            HttpURLConnection conn = AbroConexion(urlp + func);
 
-
-            int response = conn.getResponseCode();
-            Log.d("respuesta", "The response is: " + response);
+            //int response = conn.getResponseCode();
+            //Log.d("respuesta", "The response is: " + response);
             is = conn.getInputStream();
-
             // Convert the InputStream into a string
             String contentAsString = readIt(is, len);
             Log.d("respuesta", contentAsString);
@@ -157,13 +105,7 @@ public class ConexionServer {
                 }
             }
 
-        } catch (MalformedURLException e) {
-            e.printStackTrace();
-        } catch (ProtocolException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (JSONException e) {
+        }catch (JSONException e) {
             e.printStackTrace();
         } finally {
             if (is != null) {
@@ -172,6 +114,24 @@ public class ConexionServer {
         }
 
         return dispositivos;
+    }
+
+    private HttpURLConnection AbroConexion(String urlp){
+        URL url = null;
+        HttpURLConnection conn = null;
+        try {
+            url = new URL(urlp);
+            Log.d("respuesta", urlp);
+            conn = (HttpURLConnection) url.openConnection();
+            conn.setRequestMethod("GET");
+            conn.setDoOutput(true);
+            conn.setDoInput(true);
+        // Starts the query
+            conn.connect();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return conn;
     }
 
     private String readIt(InputStream stream, int len) throws IOException {
