@@ -19,16 +19,23 @@ public class GraficarActivity extends AppCompatActivity {
 
     ArrayList<Censado> results;
     LineChart lineChart ;
+    TextView tipo;
+    TextView id;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_graficar);
+        tipo=(TextView)findViewById(R.id.edTipoSensor);
+        id=(TextView)findViewById(R.id.edIdSensor);
         Intent intent = getIntent();
+
+        tipo.setText(intent.getStringExtra("tiposensor"));
+        id.setText("id:"+intent.getStringExtra("idsensor"));
+
         results = intent.getParcelableArrayListExtra("censados");
         lineChart = (LineChart) findViewById(R.id.chart);
         graficar();
     }
-
 
     public void graficar(){
         ArrayList<Entry> entries = new ArrayList<>();

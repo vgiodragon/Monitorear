@@ -24,6 +24,7 @@ public class InfoDevicesActivity extends AppCompatActivity {
     private RecyclerView.LayoutManager mLayoutManager;
     ArrayList <Dispositivo>results;
     ArrayList<Censado> resultsCensado;
+    int posicion;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,6 +52,7 @@ public class InfoDevicesActivity extends AppCompatActivity {
             @Override
             public void onItemClick(int position, View v) {
                 Log.i(LOG_TAG, " Clicked on Item " + position);
+                posicion=position;
                 new cargarCensado ("consCen/"+results.get(position).getTipo_sensor()+"_"+results.get(position).getId()).execute();
             }
         });
@@ -84,6 +86,9 @@ public class InfoDevicesActivity extends AppCompatActivity {
 
     public void graficar(){
         Intent intent = new Intent(this,GraficarActivity.class);
+        String tipo = results.get(posicion).getTipo_sensor();
+        intent.putExtra("tiposensor",tipo.substring(0, 1).toUpperCase() + tipo.substring(1));
+        intent.putExtra("idsensor",results.get(posicion).getId());
         intent.putParcelableArrayListExtra("censados",resultsCensado);
         startActivity(intent);
     }

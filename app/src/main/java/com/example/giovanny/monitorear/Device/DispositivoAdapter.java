@@ -68,9 +68,10 @@ public class DispositivoAdapter extends RecyclerView.Adapter<DispositivoAdapter.
     @Override
     public void onBindViewHolder(DispositivoViewHolder holder, int position) {
         holder.Idispositivo.setImageResource(mDispositivoSet.get(position).getImagen());
+        String tipo =mDispositivoSet.get(position).getTipo_sensor() ;
         if(mDispositivoSet.get(position).getImagen()==R.drawable.cansat){
             holder.tDevice.setText("Cansat");
-        }else holder.tDevice.setText(mDispositivoSet.get(position).getTipo_sensor());
+        }else holder.tDevice.setText(tipo.substring(0, 1).toUpperCase() + tipo.substring(1));
         holder.tIdDevice.setText(mDispositivoSet.get(position).getId());
         holder.tdModelo.setText(mDispositivoSet.get(position).getModelo());
         holder.tFecha.setText(mDispositivoSet.get(position).getFecha());
