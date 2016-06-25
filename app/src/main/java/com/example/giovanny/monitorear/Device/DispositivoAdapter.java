@@ -70,7 +70,7 @@ public class DispositivoAdapter extends RecyclerView.Adapter<DispositivoAdapter.
         holder.Idispositivo.setImageResource(mDispositivoSet.get(position).getImagen());
         if(mDispositivoSet.get(position).getImagen()==R.drawable.cansat){
             holder.tDevice.setText("Cansat");
-        }else holder.tDevice.setText("Sensor");
+        }else holder.tDevice.setText(mDispositivoSet.get(position).getTipo_sensor());
         holder.tIdDevice.setText(mDispositivoSet.get(position).getId());
         holder.tdModelo.setText(mDispositivoSet.get(position).getModelo());
         holder.tFecha.setText(mDispositivoSet.get(position).getFecha());

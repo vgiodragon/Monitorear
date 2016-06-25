@@ -51,7 +51,7 @@ public class InfoDevicesActivity extends AppCompatActivity {
             @Override
             public void onItemClick(int position, View v) {
                 Log.i(LOG_TAG, " Clicked on Item " + position);
-                new cargarCensado ("consCen/"+results.get(position).getId()).execute();
+                new cargarCensado ("consCen/"+results.get(position).getTipo_sensor()+"_"+results.get(position).getId()).execute();
             }
         });
     }

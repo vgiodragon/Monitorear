@@ -20,7 +20,7 @@ import java.util.ArrayList;
  * Created by giovanny on 19/06/16.
  */
 public class ConexionServer {
-    String urlp="http://52.40.252.10:8081/";
+    String urlp="http://52.26.47.211:8081/";
 
     public ArrayList<Censado> receiveJson(String func)throws IOException {
 
@@ -45,7 +45,6 @@ public class ConexionServer {
                 JSONObject json_data = jsonArray.getJSONObject(i);
                 Censado censado= new Censado(json_data.getString("id_cansat"),
                         json_data.getString("id_sensor"),
-                        json_data.getString("tipo_sensor") ,
                         (float)json_data.getDouble("value"),
                         json_data.getString("fecha") ,
                         json_data.getString("hora") );
@@ -89,7 +88,8 @@ public class ConexionServer {
                 Dispositivo dispositivo = new Dispositivo(R.drawable.cansat,
                                 json_data.getString("id_cansat"),
                                 json_data.getString("modelo"),
-                                json_data.getString("f_install")
+                                json_data.getString("f_install"),
+                                ""
                                 );
                 JSONArray jsonArraySensores = json_data.getJSONArray("sensores");
                 dispositivos.add(dispositivo);
@@ -99,7 +99,8 @@ public class ConexionServer {
                     Dispositivo sensor = new Dispositivo(R.drawable.sensor,
                             json_data.getString("id_sensor"),
                             json_data.getString("modelo"),
-                            json_data.getString("f_install")
+                            json_data.getString("f_install"),
+                            json_data.getString("t_sensor")
                             );
                     dispositivos.add(sensor);
                 }
@@ -117,10 +118,9 @@ public class ConexionServer {
     }
 
     private HttpURLConnection AbroConexion(String urlp){
-        URL url = null;
         HttpURLConnection conn = null;
         try {
-            url = new URL(urlp);
+            URL url= new URL(urlp);
             Log.d("respuesta", urlp);
             conn = (HttpURLConnection) url.openConnection();
             conn.setRequestMethod("GET");
@@ -135,8 +135,7 @@ public class ConexionServer {
     }
 
     private String readIt(InputStream stream, int len) throws IOException {
-        Reader reader = null;
-        reader = new InputStreamReader(stream, "UTF-8");
+        Reader reader = new InputStreamReader(stream, "UTF-8");
         char[] buffer = new char[len];
         reader.read(buffer);
         return new String(buffer);

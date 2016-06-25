@@ -9,15 +9,13 @@ import android.os.Parcelable;
 public class Censado implements Parcelable {
     private String id_cansat;
     private String id_sensor;
-    private String tipo_sensor;
     private float value;
     private String fecha;
     private String hora;
 
-    public Censado(String id_cansat, String id_sensor, String tipo_sensor, float value, String fecha, String hora) {
+    public Censado(String id_cansat, String id_sensor, float value, String fecha, String hora) {
         this.id_cansat = id_cansat;
         this.id_sensor = id_sensor;
-        this.tipo_sensor = tipo_sensor;
         this.value = value;
         this.fecha = fecha;
         this.hora = hora;
@@ -26,7 +24,6 @@ public class Censado implements Parcelable {
     protected Censado(Parcel in) {
         id_cansat = in.readString();
         id_sensor = in.readString();
-        tipo_sensor = in.readString();
         value = in.readFloat();
         fecha = in.readString();
         hora = in.readString();
@@ -52,9 +49,6 @@ public class Censado implements Parcelable {
         return id_sensor;
     }
 
-    public String getTipo_sensor() {
-        return tipo_sensor;
-    }
 
     public float getValue() {
         return value;
@@ -77,7 +71,6 @@ public class Censado implements Parcelable {
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeString(id_cansat);
         dest.writeString(id_sensor);
-        dest.writeString(tipo_sensor);
         dest.writeFloat(value);
         dest.writeString(fecha);
         dest.writeString(hora);
