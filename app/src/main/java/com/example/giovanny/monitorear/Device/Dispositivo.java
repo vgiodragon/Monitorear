@@ -11,28 +11,19 @@ public class Dispositivo implements Parcelable{
     private String id;
     private String modelo;
     private String fecha;
+    private String unidad;
 
-    public String getTipo_sensor() {
-        return tipo_sensor;
-    }
 
-    private String tipo_sensor;
-
-    public Dispositivo(int imagen, String id, String modelo, String fecha, String tipo_sensor) {
-        this.imagen = imagen;
-        this.id = id;
-        this.modelo = modelo;
-        this.fecha = fecha;
-        this.tipo_sensor = tipo_sensor;
-    }
 
     protected Dispositivo(Parcel in) {
         imagen = in.readInt();
         id = in.readString();
         modelo = in.readString();
         fecha = in.readString();
+        unidad = in.readString();
         tipo_sensor = in.readString();
     }
+
 
     public static final Creator<Dispositivo> CREATOR = new Creator<Dispositivo>() {
         @Override
@@ -46,12 +37,24 @@ public class Dispositivo implements Parcelable{
         }
     };
 
+    public String getTipo_sensor() {
+        return tipo_sensor;
+    }
+
+    private String tipo_sensor;
+
+    public Dispositivo(int imagen, String id, String tipo_sensor, String unidad, String modelo, String fecha) {
+        this.imagen = imagen;
+        this.id = id;
+        this.modelo = modelo;
+        this.fecha = fecha;
+        this.unidad = unidad;
+        this.tipo_sensor = tipo_sensor;
+    }
+
     public int getImagen() {
         return imagen;
     }
-
-
-
 
     public String getId() {
         return id;
@@ -65,6 +68,22 @@ public class Dispositivo implements Parcelable{
         return fecha;
     }
 
+    public String getUnidad() {
+        return unidad;
+    }
+
+
+
+    @Override
+    public String toString() {
+        return "Dispositivo{" +
+                "tipo_sensor='" + tipo_sensor + '\'' +
+                ", unidad='" + unidad + '\'' +
+                ", fecha='" + fecha + '\'' +
+                ", modelo='" + modelo + '\'' +
+                ", id='" + id + '\'' +
+                '}';
+    }
 
     @Override
     public int describeContents() {
@@ -77,6 +96,7 @@ public class Dispositivo implements Parcelable{
         dest.writeString(id);
         dest.writeString(modelo);
         dest.writeString(fecha);
+        dest.writeString(unidad);
         dest.writeString(tipo_sensor);
     }
 }

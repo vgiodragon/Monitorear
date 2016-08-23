@@ -20,7 +20,7 @@ import java.util.ArrayList;
  * Created by giovanny on 19/06/16.
  */
 public class ConexionServer {
-    String urlp="http://52.26.47.211:8081/";
+    String urlp="http://52.10.199.174:8081/";
 
     public ArrayList<Censado> receiveJson(String func)throws IOException {
 
@@ -29,8 +29,6 @@ public class ConexionServer {
         ArrayList<Censado> censados=new ArrayList<>();
         try {
             HttpURLConnection conn = AbroConexion(urlp+func);
-            //int response = conn.getResponseCode();
-            //Log.d("respuesta", "The response is: " + response);
             is = conn.getInputStream();
 
             // Convert the InputStream into a string
@@ -71,8 +69,6 @@ public class ConexionServer {
         try {
             HttpURLConnection conn = AbroConexion(urlp + func);
 
-            //int response = conn.getResponseCode();
-            //Log.d("respuesta", "The response is: " + response);
             is = conn.getInputStream();
             // Convert the InputStream into a string
             String contentAsString = readIt(is, len);
@@ -89,7 +85,8 @@ public class ConexionServer {
                                 json_data.getString("id_cansat"),
                                 json_data.getString("modelo"),
                                 json_data.getString("f_install"),
-                                ""
+                                "U",
+                                "cansat"
                                 );
                 JSONArray jsonArraySensores = json_data.getJSONArray("sensores");
                 dispositivos.add(dispositivo);
@@ -98,11 +95,13 @@ public class ConexionServer {
                     json_data = jsonArraySensores.getJSONObject(j);
                     Dispositivo sensor = new Dispositivo(R.drawable.sensor,
                             json_data.getString("id_sensor"),
+                            json_data.getString("t_sensor"),
+                            json_data.getString("unidad"),
                             json_data.getString("modelo"),
-                            json_data.getString("f_install"),
-                            json_data.getString("t_sensor")
+                            json_data.getString("f_install")
                             );
                     dispositivos.add(sensor);
+                    Log.d("sensor",sensor.toString());
                 }
             }
 

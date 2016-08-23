@@ -11,7 +11,7 @@ import android.view.View;
 
 import com.example.giovanny.monitorear.Censado;
 import com.example.giovanny.monitorear.ConexionServer;
-import com.example.giovanny.monitorear.GraficarActivity;
+import com.example.giovanny.monitorear.GraficaryMQTT.GraficarActivity;
 import com.example.giovanny.monitorear.R;
 
 import java.io.IOException;
@@ -34,7 +34,6 @@ public class InfoDevicesActivity extends AppCompatActivity {
         results= intent.getParcelableArrayListExtra("dispositivos");
         for (int i=0;i<results.size();i++)
             Log.d(LOG_TAG,"_"+results.get(i).toString()+"_");
-
         mRecyclerView = (RecyclerView) findViewById(R.id.my_recycler_view);
         mRecyclerView.setHasFixedSize(true);
         mLayoutManager = new LinearLayoutManager(this);
@@ -53,7 +52,8 @@ public class InfoDevicesActivity extends AppCompatActivity {
             public void onItemClick(int position, View v) {
                 Log.i(LOG_TAG, " Clicked on Item " + position);
                 posicion=position;
-                new cargarCensado ("consCen/"+results.get(position).getTipo_sensor()+"_"+results.get(position).getId()).execute();
+                if(posicion!=0)
+                    new cargarCensado ("consCen/"+results.get(position).getTipo_sensor()+"_"+results.get(position).getId()).execute();
             }
         });
     }
@@ -89,6 +89,7 @@ public class InfoDevicesActivity extends AppCompatActivity {
         String tipo = results.get(posicion).getTipo_sensor();
         intent.putExtra("tiposensor",tipo.substring(0, 1).toUpperCase() + tipo.substring(1));
         intent.putExtra("idsensor",results.get(posicion).getId());
+        intent.putExtra("unidad",results.get(posicion).getUnidad());
         intent.putParcelableArrayListExtra("censados",resultsCensado);
         startActivity(intent);
     }
