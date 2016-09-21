@@ -14,9 +14,10 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+
         <!-- Mqtt Service -->
-        <service android:name="org.eclipse.paho.android.service.MqttService" >
-        </service>
+        <service android:name="org.eclipse.paho.android.service.MqttService"></service>
+
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -25,7 +26,8 @@
             </intent-filter>
         </activity>
         <activity android:name=".GraficaryMQTT.GraficarActivity" />
-        <activity android:name=".Device.InfoDevicesActivity"></activity>
+        <activity android:name=".Device.InfoDevicesActivity" />
+        <activity android:name=".SeleccionaActivity"></activity>
     </application>
 
 </manifest>

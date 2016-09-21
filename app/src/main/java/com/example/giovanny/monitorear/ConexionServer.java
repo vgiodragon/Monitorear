@@ -60,10 +60,35 @@ public class ConexionServer {
         return censados;
     }
 
+    public ArrayList<String> receiveFiltroDispositivo(String func)throws IOException {
+
+        InputStream is = null;
+        int len = 100;
+        ArrayList<String> tipos=new ArrayList<>();
+        try {
+            HttpURLConnection conn = AbroConexion(urlp+func);
+            is = conn.getInputStream();
+            // Convert the InputStream into a string
+            String contentAsString = readIt(is, len);
+            JSONArray jsonArray = new JSONArray (contentAsString);
+            for(int i=0; i<jsonArray.length(); i++){
+                String value = jsonArray.optString(i);
+                tipos.add(value.substring(0, 1).toUpperCase() + value.substring(1));
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        } finally {
+            if (is != null) {
+                is.close();
+            }
+        }
+        return tipos;
+    }
+
     public ArrayList<Dispositivo> receiveJsonDispositivo(String func)throws IOException {
 
         InputStream is = null;
-        int len = 1000;
+        int len = 1500;
         ArrayList<Dispositivo> dispositivos=new ArrayList<>();
 
         try {
@@ -86,7 +111,8 @@ public class ConexionServer {
                                 json_data.getString("modelo"),
                                 json_data.getString("f_install"),
                                 "U",
-                                "cansat"
+                                "RM",
+                                "CV1"
                                 );
                 JSONArray jsonArraySensores = json_data.getJSONArray("sensores");
                 dispositivos.add(dispositivo);
@@ -97,6 +123,7 @@ public class ConexionServer {
                             json_data.getString("id_sensor"),
                             json_data.getString("t_sensor"),
                             json_data.getString("unidad"),
+                            json_data.getString("t_valor"),
                             json_data.getString("modelo"),
                             json_data.getString("f_install")
                             );

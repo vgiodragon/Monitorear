@@ -47,7 +47,9 @@ public class MainActivity extends AppCompatActivity {
         }
     }
     public void BLogin(View view){
-        new cargarDispositivos("consInf/").execute();
+        //new cargarDispositivos("consInf/").execute();
+        Intent intent = new Intent(this,SeleccionaActivity.class);
+        startActivity(intent);
     }
 
     private class cargarDispositivos extends AsyncTask<String, Void, String> {

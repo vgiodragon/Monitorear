@@ -12,8 +12,19 @@ public class Dispositivo implements Parcelable{
     private String modelo;
     private String fecha;
     private String unidad;
+    private String tipovalor;
+    private String tipo_sensor;
 
 
+    public Dispositivo(int imagen, String id, String tipo_sensor, String unidad, String tipovalor, String modelo, String fecha) {
+        this.imagen = imagen;
+        this.id = id;
+        this.modelo = modelo;
+        this.fecha = fecha;
+        this.unidad = unidad;
+        this.tipovalor = tipovalor;
+        this.tipo_sensor = tipo_sensor;
+    }
 
     protected Dispositivo(Parcel in) {
         imagen = in.readInt();
@@ -21,9 +32,9 @@ public class Dispositivo implements Parcelable{
         modelo = in.readString();
         fecha = in.readString();
         unidad = in.readString();
+        tipovalor = in.readString();
         tipo_sensor = in.readString();
     }
-
 
     public static final Creator<Dispositivo> CREATOR = new Creator<Dispositivo>() {
         @Override
@@ -36,21 +47,6 @@ public class Dispositivo implements Parcelable{
             return new Dispositivo[size];
         }
     };
-
-    public String getTipo_sensor() {
-        return tipo_sensor;
-    }
-
-    private String tipo_sensor;
-
-    public Dispositivo(int imagen, String id, String tipo_sensor, String unidad, String modelo, String fecha) {
-        this.imagen = imagen;
-        this.id = id;
-        this.modelo = modelo;
-        this.fecha = fecha;
-        this.unidad = unidad;
-        this.tipo_sensor = tipo_sensor;
-    }
 
     public int getImagen() {
         return imagen;
@@ -72,17 +68,12 @@ public class Dispositivo implements Parcelable{
         return unidad;
     }
 
+    public String getTipo_sensor() {
+        return tipo_sensor;
+    }
 
-
-    @Override
-    public String toString() {
-        return "Dispositivo{" +
-                "tipo_sensor='" + tipo_sensor + '\'' +
-                ", unidad='" + unidad + '\'' +
-                ", fecha='" + fecha + '\'' +
-                ", modelo='" + modelo + '\'' +
-                ", id='" + id + '\'' +
-                '}';
+    public String getTipovalor() {
+        return tipovalor;
     }
 
     @Override
@@ -97,6 +88,7 @@ public class Dispositivo implements Parcelable{
         dest.writeString(modelo);
         dest.writeString(fecha);
         dest.writeString(unidad);
+        dest.writeString(tipovalor);
         dest.writeString(tipo_sensor);
     }
 }
